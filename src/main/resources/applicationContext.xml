@@ -12,7 +12,7 @@
 	<!-- Spring 的配置文件，主要和业务逻辑有关 -->
 	<context:component-scan base-package="com.ssm">
 		<!-- 不扫描控制器 -->
-		<context:exclude-filter type="annotation"
+		<context:exclude-filter type="annotation" 
 			expression="org.springframework.stereotype.Controller" />
 	</context:component-scan>
 
@@ -29,15 +29,12 @@
 	</bean>
 
 	<!-- 配置和Mybatis整合 -->
-	<bean id="sqlSessionFactory"
-		class="org.mybatis.spring.SqlSessionFactoryBean">
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<!-- 配置mybatis的全局配置文件位置 -->
-		<property name="configLocation"
-			value="classpath:mybatis-config.xml"></property>
+		<property name="configLocation" value="classpath:mybatis-config.xml"></property>
 		<property name="dataSource" ref="pooledDataSource"></property>
 		<!-- 指定mapper文件位置 -->
-		<property name="mapperLocations"
-			value="classpath:mpper/*.xml"></property>
+		<property name="mapperLocations" value="classpath:mapper/*.xml"></property>
 	</bean>
 
 	<!-- 配置扫描器，将mybatis接口的实现加入到ioc容器中 -->
@@ -46,6 +43,12 @@
 		<property name="basePackage" value="com.ssm.dao"></property>
 	</bean>
 
+
+	<!-- 配置批量操作的sqlSession -->
+	<bean class="org.mybatis.spring.SqlSessionTemplate" id="sqlSession">
+		<constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory"></constructor-arg>
+		<constructor-arg name="executorType" value="BATCH"></constructor-arg>
+	</bean>
 	<!-- 事务控制 -->
 	<bean id="transactionManager"
 		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
@@ -58,7 +61,6 @@
 		<aop:pointcut expression="execution(* com.ssm.service..*(..))" id="txPoint" />
 		<!-- 配置事务 -->
 		<aop:advisor advice-ref="txAdvice" pointcut-ref="txPoint"/>
-		<aop:aspect></aop:aspect>
 	</aop:config>
 	<!-- 配置事务增强，事务如何切入 -->
 	<tx:advice id="txAdvice" transaction-manager="transactionManager">

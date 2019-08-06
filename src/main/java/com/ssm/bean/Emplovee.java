@@ -9,7 +9,31 @@ public class Emplovee {
 
     private Integer dId;
 
-    public Integer getEmpId() {
+    
+    
+    public Emplovee() {
+		super();
+	}
+
+	public Emplovee(Integer empId, String empName, String gender, Integer dId) {
+		super();
+		this.empId = empId;
+		this.empName = empName;
+		this.gender = gender;
+		this.dId = dId;
+	}
+
+	private Department department;
+    
+    public Department getDepartment() {
+		return department;
+	}
+
+	public void setDepartment(Department department) {
+		this.department = department;
+	}
+
+	public Integer getEmpId() {
         return empId;
     }
 

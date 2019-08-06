@@ -19,6 +19,10 @@ public interface EmploveeMapper {
     List<Emplovee> selectByExample(EmploveeExample example);
 
     Emplovee selectByPrimaryKey(Integer empId);
+    
+    List<Emplovee> selectByExampleWithDept(EmploveeExample example);
+
+    Emplovee selectByPrimaryKeyWithDept(Integer empId);
 
     int updateByExampleSelective(@Param("record") Emplovee record, @Param("example") EmploveeExample example);
 
