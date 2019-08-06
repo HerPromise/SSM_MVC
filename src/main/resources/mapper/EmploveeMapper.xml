@@ -98,8 +98,8 @@
 			distinct
 		</if>
 		<include refid="withDept_Column_List" />
-		from tbl_emp
-		left join tbl_dept on tbl_emp.'d_id'=tbl_dept.'dept_id'
+		from tbl_emp 
+		left join tbl_dept on tbl_emp.d_id=tbl_dept.dept_id
 		<if test="_parameter != null">
 			<include refid="Example_Where_Clause" />
 		</if>
@@ -111,8 +111,8 @@
 		resultMap="withDeptResultMap">
 		select
 		<include refid="Base_Column_List" />
-		from tbl_emp
-		left join tbl_dept on tbl_emp.'d_id'=tbl_dept.'dept_id'
+		from tbl_emp 
+		left join tbl_dept on tbl_emp.d_id=tbl_dept.dept_id
 		where emp_id = #{empId,jdbcType=INTEGER}
 	</select>
 	<select id="selectByExample"
