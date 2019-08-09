@@ -10,7 +10,9 @@
 		<package name="com.ssm.bean" />
 	</typeAliases>
 	<plugins>
-		<plugin interceptor="com.github.pagehelper.PageInterceptor"></plugin>
+		<plugin interceptor="com.github.pagehelper.PageInterceptor">
+			<property name="resonable" value="true"></property>
+		</plugin>
 	</plugins>
 	
 </configuration>
