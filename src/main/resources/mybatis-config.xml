@@ -11,7 +11,7 @@
 	</typeAliases>
 	<plugins>
 		<plugin interceptor="com.github.pagehelper.PageInterceptor">
-			<property name="resonable" value="true"></property>
+			<property name="reasonable" value="true"></property>
 		</plugin>
 	</plugins>
 	

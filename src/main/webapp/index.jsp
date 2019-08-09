@@ -19,6 +19,56 @@
 </head>
 <body>
 
+<!-- 添加员工的模态框 -->
+<div class="modal fade" id="empAddModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">员工添加</h4>
+      </div>
+      <div class="modal-body">
+	      <form class="form-horizontal">
+	  <div class="form-group">
+	    <label for="empName_add_input" class="col-sm-2 control-label">员工姓名</label>
+	    <div class="col-sm-10">
+	      <input type="text" name="empName" class="form-control" id="empName_add_input" placeholder="empName">
+	    </div>
+	  </div>
+	  	<!-- <div class="form-group">
+	   		<label for="email_add_input" class="col-sm-2 control-label">email</label>
+	    	<div class="col-sm-10">
+	    		<input type="text" class="form-control" id="email_add_input" placeholder="email@163.com">
+	    	</div>
+  		</div> -->
+	  	<div class="form-group">
+	   		<label class="col-sm-2 control-label">性别</label>
+		    <div class="col-sm-10">
+		    	<label class="radio-inline">
+				  <input type="radio" name="gender" id="gender1_add_input" value="M" checked="checked"> 男
+				</label>
+				<label class="radio-inline">
+				  <input type="radio" name="gender" id="gender2_add_input" value="F"> 女
+				</label>
+		    </div>
+	  	</div>
+	  	<div class="form-group">
+	   		<label class="col-sm-2 control-label">部门名</label>
+		    <div class="col-sm-3">
+		    	<select class="form-control" name="dId">
+				</select>
+		    </div>
+	  	</div>
+	</form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+        <button type="button" class="btn btn-primary" id="emp_add_save_btn">保存</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 	<div class="container">
 		<!-- 标题 -->
 		<div class="row">
@@ -30,7 +80,7 @@
 		<!-- 按钮 -->
 		<div class="row">
 			<div class="col-md-4 col-md-offset-8">
-				<button class="btn btn-primary">新增</button>
+				<button class="btn btn-primary" id="emp_add_modal_btn">新增</button>
 				<button class="btn btn-danger">删除</button>
 			</div>
 
@@ -61,6 +111,7 @@
 		</div>
 	</div>
 	<script type="text/javascript">
+	var totalRecord;
 		//1.页面加载后，ajax请求，要到分页数据
 		$(function() {
 			to_PageNum(1);
@@ -117,6 +168,7 @@
 			$("#page_info").empty();
 			$("#page_info").append("当前第"+result.map.pageInfo.pageNum+"页,总"+result.map.pageInfo.pages+"页,总"
 					+result.map.pageInfo.total+"条记录");
+			totalRecord=result.map.pageInfo.total;
 		}
 	
 		function build_page_nav(result) {
@@ -165,6 +217,51 @@
 			var nav=$("<nav></nav>").append(ul);
 			nav.appendTo("#page_nav");
 		}
+		
+		$("#emp_add_modal_btn").click(function(){
+			
+			getDeptName();
+			$("#empAddModal").modal({
+				backdrop:"static"
+			});
+		});
+		function getDeptName(){
+			$("#empAddModal select").empty();
+			$.ajax({
+				url:"${APP_PATH}/depts",
+				type:"GET",
+				success:function(result){
+					//console.log(result);
+					$.each(result.map.depts,function(){
+							$("#empAddModal select").append($("<option></option>")
+															.append(this.deptName).attr("value",this.deptId));
+					});
+				}
+			});
+		}
+		$("#emp_add_save_btn").click(function(){
+			
+			//alert("进入点击事件");
+			/* $.ajax({
+				url:"${APP_PATH}/emp",
+				type:"POST",
+				data:$("#empAddModal form").serialize(),
+				success:function(result){
+					alert(result.msg);
+				}
+			}); */
+			$.ajax({
+				url:"${APP_PATH}/emp",
+				type:"POST",
+				data:$("#empAddModal form").serialize(),
+				success:function(result){
+					alert(result.msg);
+					$('#empAddModal').modal('hide');
+					to_PageNum(totalRecord);
+				}
+			});
+		});
+		
 	</script>
 </body>
 </html>

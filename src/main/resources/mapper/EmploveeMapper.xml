@@ -91,7 +91,8 @@
 	<sql id="withDept_Column_List">
 		emp_id, emp_name, gender,d_id,dept_id,dept_name
 	</sql>
-	<select id="selectByExampleWithDept"
+	<select id="selectByExampleWithDept" 
+	parameterType="com.ssm.bean.EmploveeExample" 
 		resultMap="withDeptResultMap">
 		select
 		<if test="distinct">
@@ -107,7 +108,8 @@
 			order by ${orderByClause}
 		</if>
 	</select>
-	<select id="selectByPrimaryKeyWithDept"
+	<select id="selectByPrimaryKeyWithDept" 
+	parameterType="java.lang.Integer" 
 		resultMap="withDeptResultMap">
 		select
 		<include refid="Base_Column_List" />
